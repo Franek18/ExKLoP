@@ -1,0 +1,7 @@
+Model;Formalization;Correctness;Overall
+Llama-70;1.0;1.0;1.0
+Llama-8;1.0;0.84;0.84
+Mistral;0.98;0.5;0.49
+Gemma;0.91;0.51;0.47
+Qwen;0.98;0.28;0.28
+Mixtral;0.07;0.82;0.06

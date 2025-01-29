@@ -1,0 +1,69 @@
+Parameter;Value;Unit;Outlier
+distance;18.67050719899915;km;1
+distance;21.821023163066688;km;0
+distance;100.71609317477706;km;0
+distance;119.0601868681897;km;1
+total operation time;1.8074869462350414;h;1
+total operation time;2.116661380275592;h;0
+total operation time;9.302869079022841;h;0
+total operation time;10.872760707714136;h;1
+PTO operation time;0.1844364067733132;h;1
+PTO operation time;0.21000016659389467;h;0
+PTO operation time;4.675967297082518;h;0
+PTO operation time;5.327445822761281;h;1
+idle time;0.9298872251424353;h;1
+idle time;1.0659504674296811;h;0
+idle time;4.678091769440332;h;0
+idle time;5.379584222265629;h;1
+driving time;0.9067275113026537;h;1
+driving time;1.0604437860138163;h;0
+driving time;4.619463667397164;h;0
+driving time;5.348359049359953;h;1
+stops;18.0;-;1
+stops;21.0;-;0
+stops;270.0;-;0
+stops;317.0;-;1
+stops with PTO engaged;18.0;-;1
+stops with PTO engaged;21.0;-;0
+stops with PTO engaged;228.0;-;0
+stops with PTO engaged;264.0;-;1
+vehicle speed;0.0;km/h;0
+vehicle speed;0.0;km/h;0
+vehicle speed;74.46808644313502;km/h;0
+vehicle speed;84.75252453842154;km/h;1
+engine speed;516.9700977409681;rpm;1
+engine speed;581.0351178722026;rpm;0
+engine speed;1484.5863043685897;rpm;0
+engine speed;1698.7809615593078;rpm;1
+axle 1 load;1803.7282888379993;kg;1
+axle 1 load;2164.8065370535114;kg;0
+axle 1 load;7584.236643086879;kg;0
+axle 1 load;8426.343690367461;kg;1
+axle 2 load;6473.404289722206;kg;1
+axle 2 load;7581.93933251711;kg;0
+axle 2 load;10886.878795032988;kg;0
+axle 2 load;12370.455937325001;kg;1
+axle 3 load;4074.186012818558;kg;1
+axle 3 load;4880.79778421859;kg;0
+axle 3 load;6995.672381238054;kg;0
+axle 3 load;7924.426875974818;kg;1
+payload;0.0;kg;0
+payload;0.0;kg;0
+payload;10275.507612550733;kg;0
+payload;11646.215379938094;kg;1
+total fuel consumption;9.089054122301732;dm3;1
+total fuel consumption;10.969774770573256;dm3;0
+total fuel consumption;92.24558153759018;dm3;0
+total fuel consumption;105.61887120413506;dm3;1
+compaction cycles;47.0;-;1
+compaction cycles;53.0;-;0
+compaction cycles;283.0;-;0
+compaction cycles;315.0;-;1
+lifter cycles;45.0;-;1
+lifter cycles;53.0;-;0
+lifter cycles;281.0;-;0
+lifter cycles;318.0;-;1
+refulling time;0.07322159650987557;h;1
+refulling time;0.08782909015883844;h;0
+refulling time;0.18980295812608336;h;0
+refulling time;0.2125520227872868;h;1

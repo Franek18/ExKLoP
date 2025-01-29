@@ -1,0 +1,18 @@
+Parameters;Min;Max;Unit
+distance;20;110;km
+total operation time;2;10;h
+PTO operation time;0.2;5;h
+idle time;1;5;h
+driving time;1;5;h
+stops;20;300;-
+stops with PTO engaged;20;250;-
+vehicle speed;0;80;km/h
+engine speed;550;1600;rpm
+axle 1 load;2000;8000;kg
+axle 2 load;7000;11500;kg
+axle 3 load;4500;7500;kg
+payload;0;11000;kg
+total fuel consumption;10;100;dm3
+compaction cycles;50;300;-
+lifter cycles;50;300;-
+refulling time;0.08;0.2;h
