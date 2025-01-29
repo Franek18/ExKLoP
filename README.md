@@ -10,7 +10,7 @@ The repository structure look as follow:
 
 ## Proposed pipeline
 The pipeline describing the flow of the whole experiment is seen below:
-![](images/LLM_logic_main_diagram.png)
+![](images/png/LLM_logic_main_diagram.png)
 
 
 ## Results
