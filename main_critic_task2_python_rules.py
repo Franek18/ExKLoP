@@ -1,4 +1,5 @@
 import os
+import re
 import ast
 import copy
 import torch
@@ -13,6 +14,23 @@ parser.add_argument("--model", default="Lllama-70", type=str, help="Which model 
 parser.add_argument("--method", default="task2", type=str, help="Which method is used for solving problem: task2_zero|task2")
 args = parser.parse_args()
 
+
+# def select_function(outputs_dataset_df, idx):
+#     gt_answers = ast.literal_eval(outputs_dataset_df["Outlier"][idx])
+#     model_answers = ast.literal_eval(outputs_dataset_df["Outlier detection"][idx])
+#     python_output = outputs_dataset_df["Model output"][idx]
+
+#     all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
+
+#     error_message = "Model failed with generation of the proper logic for the following rules:\n"
+#     wrong_rules = []
+#     for model_answer, gt_answer in zip(model_answers, gt_answers):
+#             model_answer = model_answer.split(", ")
+#             gt_answer = gt_answer.split(", ")
+
+#             for model_rule_answer, gt_rule_answer, rule in zip(model_answer[1:], gt_answer[1:], all_rules):
+#                 if model_rule_answer != gt_rule_answer:
+#                     wrong_rules.append(rule)
 
 if args.model == "Mixtral":
     # Load Mixtral
@@ -79,8 +97,8 @@ elif args.model == "Gemma":
 # example = f.read()
 # f.close()
 method = args.method
-outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_Llama-8_task2_critic_runtime_python_results_no_final_rule.csv", delimiter=";", header=0)
-# outputs_dataset_df = pd.read_csv(f"outputs/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
+# outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_Llama-70_task2_critic_runtime_python_results_no_final_rule.csv", delimiter=";", header=0)
+outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_task2_critic_runtime_python_results_no_final_rule.csv", delimiter=";", header=0)
 updated_outputs_df = copy.deepcopy(outputs_dataset_df)
 
 # results = {"Input text": [], f"{args.model} wrong output": [], "Error message": [], f"{args.model} new output": []}
@@ -92,7 +110,8 @@ updated_outputs_df = copy.deepcopy(outputs_dataset_df)
 # A variable for current number of parameters in an input prompt
 curr_no_params = 0
 
-output_filename = f"outputs/Adapt_anonym_Llama-8_critic_rules_task2_python_outputs_no_final_rule.csv"
+# output_filename = f"outputs/Adapt_anonym_Llama-70_critic_rules_task2_python_outputs_no_final_rule_sampling05.csv"
+output_filename = f"outputs/Adapt_anonym_{args.model}_critic_rules_task2_python_outputs_no_final_rule.csv"
 
 f = open("templates/critic_task2_python_rules_system_prompt.txt")
 system_prompt = f.read()
@@ -100,40 +119,45 @@ f.close()
 
 for idx in outputs_dataset_df.index:
 
-    # lean_error = outputs_dataset_df[f"{args.model} syntax evaluation"][idx]
+    # Get a GT answer
     gt_answers = outputs_dataset_df["Outlier"][idx]
    
+    # Check whether GT answer indicates runtime error, if yes, than skip
     if gt_answers == "Error":
         continue
 
+    # Retrieve GT answer, model answer and model Python rules
     gt_answers = ast.literal_eval(outputs_dataset_df["Outlier"][idx])
     model_answers = ast.literal_eval(outputs_dataset_df["Outlier detection"][idx])
+    python_output = outputs_dataset_df["Model output"][idx]
 
-    input_premises = outputs_dataset_df["Premises"][idx].split("\n")
-    error_message = "Model failed with rules generation for the following premises:\n"
-    wrong_premises = []
+    # Retrieve the implemantation of all rules (without the final rule) from model's output
+    all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
+
+    error_message = "Model failed with generation of the proper logic for the following rules:\n"
+    wrong_rules = []
     for model_answer, gt_answer in zip(model_answers, gt_answers):
             model_answer = model_answer.split(", ")
             gt_answer = gt_answer.split(", ")
 
-            model_final_answer = model_answer[0]
-            gt_final_answer = gt_answer[0]
-            if model_final_answer == gt_final_answer:
-                continue
-            else:
-                for model_rule_answer, gt_rule_answer, input_premise in zip(model_answer[1:], gt_answer[1:], input_premises):
-                    if model_rule_answer != gt_rule_answer:
-                        wrong_premises.append(input_premise)
+            # Iterate over answers for each rule, and for each rule
+            for model_rule_answer, gt_rule_answer, rule in zip(model_answer[1:], gt_answer[1:], all_rules):
+                if model_rule_answer != gt_rule_answer:
+                    # If answers are different this means that this rule has wrong implementation
+                    wrong_rules.append(rule)
 
-    if len(wrong_premises) == 0:
+    if len(wrong_rules) == 0:
         # Check there are any wrong premises, if not go to next input prompt
         continue
 
     # else prepare list of deduplicated wrong premises
-    wrong_premises = set(wrong_premises)
-    error_message += "\n".join(wrong_premises)
+    wrong_rules = set(wrong_rules)
+    error_message += "\n".join(wrong_rules)
 
     print(f"Replacing output no. {idx}")
+    print(error_message)
+    print("\n")
+
     # A MistralAI template for a prompt
     mistralai_prompt = """[INST]
 [[SYSTEM PROMPT]]

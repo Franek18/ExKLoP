@@ -50578,3 +50578,881 @@ def r12(m: float) -> bool:
 def r13(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float, x11: float, x12: float) -> bool:
     return not (r1(x1) and r2(x2) and r3(x3) and r4(x4) and r5(x5) and r6(x6) and r7(x7) and r8(x8) and r9(x9) and r10(x10) and r11(x11) and r12(x12))
 ```"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r3(x1: float, x2: float, x3: float, x4: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4))
+        
+Input text:
+Textual context: If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+The payload must always be smaller than or equal to the load on axle 3.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+# If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+def r1(distance: float, fuel_consumption: float) -> bool:
+    if distance >= 18 and fuel_consumption < 6.5:
+        return True
+    else:
+        return False
+
+# The payload must always be smaller than or equal to the load on axle 3.
+def r2(payload: float, load_axle3: float) -> bool:
+    if payload > load_axle3:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r3(distance: float, fuel_consumption: float, payload: float, load_axle3: float) -> bool:
+    return r1(distance, fuel_consumption) or r2(payload, load_axle3)"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r4(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6))
+        
+Input text:
+Textual context: The lowest average fuel consumption per distance, if the vehicle traveled at least 22 km, is 39 dm³/100 km.
+Idle time must always be less than total operation time.
+Driving time must always be less than total operation time.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+# The lowest average fuel consumption per distance, if the vehicle traveled at least 22 km, is 39 dm³/100 km.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 39:
+        return True
+    else:
+        return False
+
+# Idle time must always be less than total operation time.
+def r2(idle: float, operation: float) -> bool:
+    if idle >= operation:
+        return True
+    else:
+        return False
+
+# Driving time must always be less than total operation time.
+def r3(driving: float, operation: float) -> bool:
+    if driving >= operation:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r4(idle: float, operation: float, driving: float) -> bool:
+    return r2(idle, operation) or r3(driving, operation)"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r5(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8))
+        
+Input text:
+Textual context: If the vehicle traveled at least 30 km, the minimum average hourly fuel consumption is 4.5 dm³/h.
+PTO operation time cannot be greater than the total operation time.
+Stops with PTO engaged should never outnumber total stops.
+Axle 1's load cannot exceed Axle 2's load.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+# If the vehicle traveled at least 30 km, the minimum average hourly fuel consumption is 4.5 dm³/h.
+def r1(km: float, fuel: float) -> bool:
+    if km / fuel <= 20:
+        return True
+    else:
+        return False
+
+# PTO operation time cannot be greater than the total operation time.
+def r2(pto: float, total: float) -> bool:
+    if pto > total:
+        return True
+    else:
+        return False
+
+# Stops with PTO engaged should never outnumber total stops.
+def r3(pto_stops: int, total_stops: int) -> bool:
+    if pto_stops > total_stops:
+        return True
+    else:
+        return False
+
+# Axle 1's load cannot exceed Axle 2's load.
+def r4(axle1: float, axle2: float) -> bool:
+    if axle1 > axle2:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r5(km: float, fuel: float, pto: float, total: float, pto_stops: int, total_stops: int, axle1: float, axle2: float) -> bool:
+    return not (r1(km, fuel) and r2(pto, total) and r3(pto_stops, total_stops) and r4(axle1, axle2))"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+Parameter I's value cannot be less than parameter J's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# Parameter I's value cannot be less than parameter J's value.
+def r5(i: float, j: float) -> bool:
+    if i >= j:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r6(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8) and r5(x9 x10))
+        
+Input text:
+Textual context: Idle time cannot be greater than the total operation time.
+Driving time cannot be greater than the total operation time.
+The load carried by axle 1 must be smaller than or equal to the load on axle 2.
+The weight on axle 1 cannot surpass the weight on axle 3.
+Total operation time must be greater than or equal to the sum of PTO operation, idle, and driving times.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+# Idle time cannot be greater than the total operation time.
+def r1(idle: float, total_operation: float) -> bool:
+    if idle <= total_operation:
+        return True
+    else:
+        return False
+
+# Driving time cannot be greater than the total operation time.
+def r2(driving: float, total_operation: float) -> bool:
+    if driving <= total_operation:
+        return True
+    else:
+        return False
+
+# The load carried by axle 1 must be smaller than or equal to the load on axle 2.
+def r3(axle1: float, axle2: float) -> bool:
+    if axle1 <= axle2:
+        return True
+    else:
+        return False
+
+# The weight on axle 1 cannot surpass the weight on axle 3.
+def r4(axle1: float, axle3: float) -> bool:
+    if axle1 <= axle3:
+        return True
+    else:
+        return False
+
+# Total operation time must be greater than or equal to the sum of PTO operation, idle, and driving times.
+def r5(pto_operation: float, idle: float, driving: float, total_operation: float) -> bool:
+    if total_operation >= pto_operation + idle + driving:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r6(pto_operation: float, idle: float, driving: float, axle1: float, axle2: float, axle3: float, total_operation: float) -> bool:
+    return not (r1(idle, total_operation) and r2(driving, total_operation) and r3(axle1, axle2) and r4(axle1, axle3) and r5(pto_operation, idle, driving, total_operation))"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+Parameter I's value cannot be less than parameter J's value.
+Parameter K's value cannot be less than parameter L's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# Parameter I's value cannot be less than parameter J's value.
+def r5(i: float, j: float) -> bool:
+    if i >= j:
+        return True
+    else:
+        return False
+
+# Parameter K's value cannot be less than parameter L's value.
+def r6(k: float, l: float) -> bool:
+    if k >= l:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r7(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float, x11: float, x12: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8) and r5(x9 x10) and r6(x11 x12))
+        
+Input text:
+Textual context: If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+Driving time cannot be greater than the total operation time.
+PTO-engaged stops cannot exceed the total number of stops.
+Axle 1's load cannot exceed Axle 2's load.
+Payload must remain below or equal to the load carried by axle 2.
+Total operation time should be at least the sum of PTO, idle, and driving times.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+Here is the Python3 code based on the given input text:
+
+# If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+def r1(distance: float, fuel_consumption: float) -> bool:
+    if distance >= 18 and fuel_consumption < 6.5:
+        return True
+    else:
+        return False
+
+# Driving time cannot be greater than the total operation time.
+def r2(driving_time: float, operation_time: float) -> bool:
+    if driving_time > operation_time:
+        return True
+    else:
+        return False
+
+# PTO-engaged stops cannot exceed the total number of stops.
+def r3(pto_stops: float, total_stops: float) -> bool:
+    if pto_stops > total_stops:
+        return True
+    else:
+        return False
+
+# Axle 1's load cannot exceed Axle 2's load.
+def r4(axle1_load: float, axle2_load: float) -> bool:
+    if axle1_load > axle2_load:
+        return True
+    else:
+        return False
+
+# Payload must remain below or equal to the load carried by axle 2.
+def r5(payload: float, axle2_load: float) -> bool:
+    if payload > axle2_load:
+        return True
+    else:
+        return False
+
+# Total operation time should be at least the sum of PTO, idle, and driving times.
+def r6(pto_time: float, idle_time: float, driving_time: float) -> bool:
+    if pto_time + idle_time + driving_time < 0:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r7(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float) -> bool:
+    return not (not r1(x1, x2) and not r2(x3, x4) and not r3(x5, x6) and not r4(x7, x8) and not r5(x9, x10) and not r6(x11, x12, x13))"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+Parameter I's value cannot be less than parameter J's value.
+Parameter K's value cannot be less than parameter L's value.
+Parameter M's value cannot be greater than parameter N's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# Parameter I's value cannot be less than parameter J's value.
+def r5(i: float, j: float) -> bool:
+    if i >= j:
+        return True
+    else:
+        return False
+
+# Parameter K's value cannot be less than parameter L's value.
+def r6(k: float, l: float) -> bool:
+    if k >= l:
+        return True
+    else:
+        return False
+
+# Parameter M's value cannot be greater than parameter N's value.
+def r7(m: float, n: float) -> bool:
+    if m <= n:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r8(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float, x11: float, x12: float, x13: float, x14: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8) and r5(x9 x10) and r6(x11 x12) and r7(x13 x14))
+        
+Input text:
+Textual context: If the vehicle traveled at least 15 km, the lowest average hourly fuel consumption can be 5.5 dm³/h.
+Driving time cannot be greater than the total operation time.
+The load carried by axle 1 must be smaller than or equal to the load on axle 2.
+The load on axle 1 must not surpass the load on axle 3.
+The payload must not exceed the load carried by axle 2.
+The payload must not exceed the load carried by axle 3.
+The combined time for PTO operation, idle time, and driving time must not surpass the total operation time.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+Here is the Python3 code based on the given input text:
+
+```
+# If the vehicle traveled at least 15 km, the lowest average hourly fuel consumption can be 5.5 dm³/h.
+def r1(a: float, b: float) -> bool:
+    if a / b >= 2.7272727272727274:
+        return True
+    else:
+        return False
+
+# Driving time cannot be greater than the total operation time.
+def r2(c: float, d: float) -> bool:
+    if c <= d:
+        return True
+    else:
+        return False
+
+# The load carried by axle 1 must be smaller than or equal to the load on axle 2.
+def r3(e: float, f: float) -> bool:
+    if e <= f:
+        return True
+    else:
+        return False
+
+# The load on axle 1 must not surpass the load on axle 3.
+def r4(e: float, g: float) -> bool:
+    if e <= g:
+        return True
+    else:
+        return False
+
+# The payload must not exceed the load carried by axle 2.
+def r5(h: float, f: float) -> bool:
+    if h <= f:
+        return True
+    else:
+        return False
+
+# The payload must not exceed the load carried by axle 3.
+def r6(h: float, g: float) -> bool:
+    if h <= g:
+        return True
+    else:
+        return False
+
+# The combined time for PTO operation, idle time, and driving time must not surpass the total operation time.
+def r7(i: float, d: float) -> bool:
+    if i <= d:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r8(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float) -> bool:
+    return not (r1(x1, x2) and r2(x3, x4) and r3(x5, x6) and r4(x5, x7) and r5(x8, x6) and r6(x8, x7) and r7(x9, x4))
+```"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+Parameter I's value cannot be less than parameter J's value.
+Parameter K's value cannot be less than parameter L's value.
+Parameter M's value cannot be greater than parameter N's value.
+Parameter O's value cannot be greater than parameter P's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# Parameter I's value cannot be less than parameter J's value.
+def r5(i: float, j: float) -> bool:
+    if i >= j:
+        return True
+    else:
+        return False
+
+# Parameter K's value cannot be less than parameter L's value.
+def r6(k: float, l: float) -> bool:
+    if k >= l:
+        return True
+    else:
+        return False
+
+# Parameter M's value cannot be greater than parameter N's value.
+def r7(m: float, n: float) -> bool:
+    if m <= n:
+        return True
+    else:
+        return False
+
+# Parameter O's value cannot be greater than parameter P's value.
+def r8(o: float, p: float) -> bool:
+    if o <= p:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r9(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float, x11: float, x12: float, x13: float, x14: float, x15: float, x16: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8) and r5(x9 x10) and r6(x11 x12) and r7(x13 x14) and r8(x15 x16))
+        
+Input text:
+Textual context: If the vehicle traveled at least 15 km, the lowest average hourly fuel consumption can be 5.5 dm³/h.
+The lowest average fuel consumption per distance, if the vehicle traveled at least 22 km, is 39 dm³/100 km.
+PTO operation time must always be less than total operation time.
+Idle time should be less than or equal to the total operation time.
+The total stop count must always exceed the count of stops where PTO is engaged.
+The payload must always be smaller than or equal to the load on axle 2.
+The payload must always be smaller than or equal to the load on axle 3.
+The total operation duration must always be greater than or equal to the combined time for PTO, idle, and driving.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+Here is the Python3 code based on the given input text:
+
+```
+# If the vehicle traveled at least 15 km, the lowest average hourly fuel consumption can be 5.5 dm³/h.
+def r1(a: float, b: float) -> bool:
+    if a / b >= 2.7272727272727274:
+        return True
+    else:
+        return False
+
+# The lowest average fuel consumption per distance, if the vehicle traveled at least 22 km, is 39 dm³/100 km.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 858:
+        return True
+    else:
+        return False
+
+# PTO operation time must always be less than total operation time.
+def r3(e: float, f: float) -> bool:
+    if e > f:
+        return True
+    else:
+        return False
+
+# Idle time should be less than or equal to the total operation time.
+def r4(g: float, h: float) -> bool:
+    if g <= h:
+        return True
+    else:
+        return False
+
+# The total stop count must always exceed the count of stops where PTO is engaged.
+def r5(i: float, j: float) -> bool:
+    if i > j:
+        return True
+    else:
+        return False
+
+# The payload must always be smaller than or equal to the load on axle 2.
+def r6(k: float, l: float) -> bool:
+    if k <= l:
+        return True
+    else:
+        return False
+
+# The payload must always be smaller than or equal to the load on axle 3.
+def r7(m: float, n: float) -> bool:
+    if m <= n:
+        return True
+    else:
+        return False
+
+# The total operation duration must always be greater than or equal to the combined time for PTO, idle, and driving.
+def r8(o: float, p: float, q: float) -> bool:
+    if o >= p + q:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r9(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float) -> bool:
+    return not (r1(x1, x2) and r2(x3, x4) and r3(x5, x6) and r4(x7, x8) and r5(x9, x10))
+```"
+"System Message:
+        You are a logician with a background in mathematics that translates natural language
+        reasoning text to Python3 code so that these natural language reasoning problems can be solved.
+        During the translation, please pay close attention to defining variables and rules.
+        Do not add any comments from you.
+        Don't generate the same argument names for functions of separate conditions!
+        Be guided by the following example:
+        Example input text:
+        Textual context: If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+Parameter E's value cannot be less than parameter F's value.
+Parameter G's value cannot be less than parameter H's value.
+Parameter I's value cannot be less than parameter J's value.
+Parameter K's value cannot be less than parameter L's value.
+Parameter M's value cannot be greater than parameter N's value.
+Parameter O's value cannot be greater than parameter P's value.
+Parameter R's value cannot be greater than parameter S's value.
+
+        Example Python3 code:
+        # If the parameter A's value is 20, the lowest possible value of parameter B is 5.
+def r1(a: float, b: float) -> bool:
+    if a / b <= 4:
+        return True
+    else:
+        return False
+
+# If the parameter C's value is 20, the lowest possible value of parameter D is 0.4.
+def r2(c: float, d: float) -> bool:
+    if c * d >= 8:
+        return True
+    else:
+        return False
+
+# Parameter E's value cannot be less than parameter F's value.
+def r3(e: float, f: float) -> bool:
+    if e >= f:
+        return True
+    else:
+        return False
+
+# Parameter G's value cannot be less than parameter H's value.
+def r4(g: float, h: float) -> bool:
+    if g >= h:
+        return True
+    else:
+        return False
+
+# Parameter I's value cannot be less than parameter J's value.
+def r5(i: float, j: float) -> bool:
+    if i >= j:
+        return True
+    else:
+        return False
+
+# Parameter K's value cannot be less than parameter L's value.
+def r6(k: float, l: float) -> bool:
+    if k >= l:
+        return True
+    else:
+        return False
+
+# Parameter M's value cannot be greater than parameter N's value.
+def r7(m: float, n: float) -> bool:
+    if m <= n:
+        return True
+    else:
+        return False
+
+# Parameter O's value cannot be greater than parameter P's value.
+def r8(o: float, p: float) -> bool:
+    if o <= p:
+        return True
+    else:
+        return False
+
+# Parameter R's value cannot be greater than parameter S's value.
+def r9(r: float, s: float) -> bool:
+    if r <= s:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r10(x1: float, x2: float, x3: float, x4: float, x5: float, x6: float, x7: float, x8: float, x9: float, x10: float, x11: float, x12: float, x13: float, x14: float, x15: float, x16: float, x17: float, x18: float) -> bool:
+   return not (r1(x1 x2) and r2(x3 x4) and r3(x5 x6) and r4(x7 x8) and r5(x9 x10) and r6(x11 x12) and r7(x13 x14) and r8(x15 x16) and r9(x17 x18))
+        
+Input text:
+Textual context: If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+The lowest possible average fuel consumption per distance, if the vehicle traveled at least 25 km, is 42 dm³/100 km.
+Total operation time should exceed PTO operation time.
+Total operation time should exceed idle time.
+The total operation duration must always exceed driving time.
+The load supported by axle 1 cannot exceed that of axle 2.
+The payload must not exceed the load carried by axle 2.
+The payload cannot exceed the capacity of axle 3.
+Total operation time should be at least the sum of PTO, idle, and driving times.
+To identify the day as abnormal, it is enough that even one or more conditions are violated.";"
+
+Here is the Python3 code based on the given input text:
+
+```
+# If the vehicle covered a distance of 18 km or more, the minimum average hourly fuel consumption is 6.5 dm³/h.
+def r1(distance: float, fuel_consumption: float) -> bool:
+    if distance >= 18 and fuel_consumption < 6.5:
+        return True
+    else:
+        return False
+
+# The lowest possible average fuel consumption per distance, if the vehicle traveled at least 25 km, is 42 dm³/100 km.
+def r2(distance: float, fuel_consumption: float) -> bool:
+    if distance >= 25 and fuel_consumption > 42:
+        return True
+    else:
+        return False
+
+# Total operation time should exceed PTO operation time.
+def r3(pto_time: float, total_time: float) -> bool:
+    if total_time <= pto_time:
+        return True
+    else:
+        return False
+
+# Total operation time should exceed idle time.
+def r4(idle_time: float, total_time: float) -> bool:
+    if total_time <= idle_time:
+        return True
+    else:
+        return False
+
+# The total operation duration must always exceed driving time.
+def r5(driving_time: float, total_time: float) -> bool:
+    if total_time <= driving_time:
+        return True
+    else:
+        return False
+
+# The load supported by axle 1 cannot exceed that of axle 2.
+def r6(axle1_load: float, axle2_load: float) -> bool:
+    if axle1_load > axle2_load:
+        return True
+    else:
+        return False
+
+# The payload must not exceed the load carried by axle 2.
+def r7(payload: float, axle2_load: float) -> bool:
+    if payload > axle2_load:
+        return True
+    else:
+        return False
+
+# The payload cannot exceed the capacity of axle 3.
+def r8(payload: float, axle3_capacity: float) -> bool:
+    if payload > axle3_capacity:
+        return True
+    else:
+        return False
+
+# Total operation time should be at least the sum of PTO, idle, and driving times.
+def r9(pto_time: float, idle_time: float, driving_time: float, total_time: float) -> bool:
+    if total_time < pto_time + idle_time + driving_time:
+        return True
+    else:
+        return False
+
+# To identify the day as abnormal, it is enough that even one or more conditions are violated.
+def r10(pto_time: float, idle_time: float, driving_time: float, distance: float, fuel_consumption: float, axle1_load: float, axle2_load: float, axle3_capacity: float, payload: float) -> bool:
+    return r1(distance, fuel_consumption) or r2(distance, fuel_consumption) or r3(pto_time, total_time) or r4(idle_time, total_time) or r5(driving_time, total_time) or r6(axle1_load, axle2_load) or r7(payload, axle2_load) or r8(payload, axle3_capacity) or r9(pto_time, idle_time, driving_time, total_time)
+```"

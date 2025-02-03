@@ -1,67 +1,67 @@
 import re
 import numpy as np
 
-def get_rules(no_rules):
-    # Read a ground truth rules for all 17 parameters
-    f = open("templates/ground_truth_rules.lean")
-    gt_rules_lines = f.readlines()
+# def get_rules(no_rules):
+#     # Read a ground truth rules for all 17 parameters
+#     f = open("templates/ground_truth_rules.lean")
+#     gt_rules_lines = f.readlines()
 
-    premises = []
-    rules_lines = []
-    rules = []
+#     premises = []
+#     rules_lines = []
+#     rules = []
 
-    # Retrieve lines of comments as input premises
-    # And ruels functions
-    for gt_rules_line in gt_rules_lines:
-        if re.search("^-- ", gt_rules_line):
-            premises.append(gt_rules_line)
-        else:
-            rules_lines.append(gt_rules_line)
+#     # Retrieve lines of comments as input premises
+#     # And ruels functions
+#     for gt_rules_line in gt_rules_lines:
+#         if re.search("^-- ", gt_rules_line):
+#             premises.append(gt_rules_line)
+#         else:
+#             rules_lines.append(gt_rules_line)
 
-    # Merge both lines of rules into one string
-    for i in range(0, len(rules_lines)-1, 2):
-        rules.append(rules_lines[i] + rules_lines[i+1])
+#     # Merge both lines of rules into one string
+#     for i in range(0, len(rules_lines)-1, 2):
+#         rules.append(rules_lines[i] + rules_lines[i+1])
 
-    # Prepare In-context examples: input premises and Lean4 rules
-    input_premises = "Textual context: "
-    input_rules = ""
+#     # Prepare In-context examples: input premises and Lean4 rules
+#     input_premises = "Textual context: "
+#     input_rules = ""
 
-    # Create a final rule for evaluation
-    # def r5 (r1 r2 r3 r4 : Float -> Bool) (x1 x2 x3 x4 : Float) : Bool :=
-    #   ¬((r1 x1) ∧ (r2 x2) ∧ (r3 x3) ∧ (r4 x4))
-    general_rule_comment = "-- To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
-    general_rule = f"def r{no_rules+1} ([rules]: Float -> Bool) ([args]: Float) : Bool :=\n  ¬([expr])"
-    used_rules = ""
-    used_args = ""
-    expr = ""
+#     # Create a final rule for evaluation
+#     # def r5 (r1 r2 r3 r4 : Float -> Bool) (x1 x2 x3 x4 : Float) : Bool :=
+#     #   ¬((r1 x1) ∧ (r2 x2) ∧ (r3 x3) ∧ (r4 x4))
+#     general_rule_comment = "-- To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
+#     general_rule = f"def r{no_rules+1} ([rules]: Float -> Bool) ([args]: Float) : Bool :=\n  ¬([expr])"
+#     used_rules = ""
+#     used_args = ""
+#     expr = ""
 
-    for i in range(no_rules):
-        # Prepare rules, args, logical expression and premises
-        used_rules += f"r{i+1} "
-        used_args += f"x{i+1} "
-        expr += f"(r{i+1} x{i+1}) ∧ "
-        input_premises += premises[i][3:]
-        input_rules += premises[i] + rules[i]
+#     for i in range(no_rules):
+#         # Prepare rules, args, logical expression and premises
+#         used_rules += f"r{i+1} "
+#         used_args += f"x{i+1} "
+#         expr += f"(r{i+1} x{i+1}) ∧ "
+#         input_premises += premises[i][3:]
+#         input_rules += premises[i] + rules[i]
 
-    # Cut the last 3 unused characters
-    expr = expr[:-3]
-    general_rule = general_rule.replace("[rules]", used_rules).replace("[args]", used_args).replace("[expr]", expr)
+#     # Cut the last 3 unused characters
+#     expr = expr[:-3]
+#     general_rule = general_rule.replace("[rules]", used_rules).replace("[args]", used_args).replace("[expr]", expr)
 
-    # Add general rule code to the whole Lean4 code
-    input_rules += "\n" + general_rule_comment + general_rule
+#     # Add general rule code to the whole Lean4 code
+#     input_rules += "\n" + general_rule_comment + general_rule
 
 
-    # for rule in rules:
-    #     print(rule)
-    # for premise in premises:
-    #     print(premise)
+#     # for rule in rules:
+#     #     print(rule)
+#     # for premise in premises:
+#     #     print(premise)
 
-    # print(input_rules)
-    # print(input_premises)
+#     # print(input_rules)
+#     # print(input_premises)
 
-    f.close()
+#     f.close()
 
-    return example_prompt
+#     return example_prompt
 
 # Function which generates In-context example depending on numbers of parameters in the input prompt
 def get_rules(no_rules):
@@ -235,8 +235,8 @@ def get_python_rules(no_rules):
     # def r5(x1: float, x2: float, x3: float, x4: float) -> bool:
     #     return not (r1(x1) and r2(x2) and r3(x3) and r4(x4))
 
-    general_rule_comment = "# To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
-    general_rule = f"def r{no_rules+1}([args]) -> bool:\n   return not ([expr])"
+    # general_rule_comment = "# To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
+    # general_rule = f"def r{no_rules+1}([args]) -> bool:\n   return not ([expr])"
     used_rules = ""
     used_args = ""
     expr = ""
@@ -251,11 +251,11 @@ def get_python_rules(no_rules):
 
     # Cut the last 3 unused characters
     expr = expr[:-5]
-    used_args = used_args[:-2]
-    general_rule = general_rule.replace("[args]", used_args).replace("[expr]", expr)
+    # used_args = used_args[:-2]
+    # general_rule = general_rule.replace("[args]", used_args).replace("[expr]", expr)
 
     # Add general rule code to the whole Lean4 code
-    input_rules += general_rule_comment + general_rule
+    # input_rules += general_rule_comment + general_rule
 
     f.close()
 
@@ -297,8 +297,8 @@ def task2_get_python_rules(no_rules):
     # def r5(x1: float, x2: float, x3: float, x4: float) -> bool:
     #     return not (r1(x1) and r2(x2) and r3(x3) and r4(x4))
 
-    general_rule_comment = "# To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
-    general_rule = f"def r{no_rules+1}([args]) -> bool:\n   return not ([expr])"
+    # general_rule_comment = "# To identify the day as abnormal, it is enough that even one or more conditions are violated.\n"
+    # general_rule = f"def r{no_rules+1}([args]) -> bool:\n   return not ([expr])"
     used_rules = ""
     used_args = ""
     expr = ""
@@ -315,7 +315,7 @@ def task2_get_python_rules(no_rules):
     # Cut the last 3 unused characters
     expr = expr[:-5]
     used_args = used_args[:-2]
-    general_rule = general_rule.replace("[args]", used_args).replace("[expr]", expr)
+    # general_rule = general_rule.replace("[args]", used_args).replace("[expr]", expr)
 
     # Add general rule code to the whole Lean4 code
     # input_rules += general_rule_comment + general_rule

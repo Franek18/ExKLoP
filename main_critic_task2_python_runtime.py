@@ -79,8 +79,8 @@ elif args.model == "Gemma":
 # example = f.read()
 # f.close()
 method = args.method
-outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_Llama-8_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
-# outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
+# outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_Llama-70_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
+outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
 
 # outputs_dataset_df = pd.read_csv(f"outputs/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
 updated_outputs_df = copy.deepcopy(outputs_dataset_df)
@@ -94,8 +94,8 @@ updated_outputs_df = copy.deepcopy(outputs_dataset_df)
 # A variable for current number of parameters in an input prompt
 curr_no_params = 0
 
-output_filename = f"outputs/Adapt_anonym_Llama-8_critic_runtime_task2_python_outputs_no_final_rule.csv"
-# output_filename = f"outputs/Adapt_anonym_{args.model}_critic_runtime_task2_python_outputs_no_final_rule.csv"
+# output_filename = f"outputs/Adapt_anonym_Llama-70_critic_runtime_task2_python_outputs_no_final_rule.csv"
+output_filename = f"outputs/Adapt_anonym_{args.model}_critic_runtime_task2_python_outputs_no_final_rule.csv"
 
 f = open("templates/critic_task2_python_runtime_system_prompt.txt")
 system_prompt = f.read()
@@ -115,15 +115,18 @@ for idx in outputs_dataset_df.index:
     print(f"Replacing output no. {idx}")
     # A MistralAI template for a prompt
     mistralai_prompt = """[INST]
-    [[SYSTEM PROMPT]]
+[[SYSTEM PROMPT]]
 
-    The input for your task:
-    This is the Python3 code which not correspond to the given logical premises:
-    [[PYTHON3 CODE]]
-    It is supposed to translate the following text into rules:
-    [[INPUT TEXT]]
-    [[ERROR]]
-    Please correct the code.    
+The input for your task:
+This is the Python3 code which not correspond to the given logical premises:
+[[PYTHON3 CODE]]
+
+It is supposed to translate the following text into rules:
+[[INPUT TEXT]]
+
+[[ERROR]]
+
+Please correct the code.    
     [/INST]"""
 
     # Insert system prompt into a mistralai style prompt
@@ -131,13 +134,16 @@ for idx in outputs_dataset_df.index:
 
     # A system prompt template for Llama3 and Qwen2
     user_prompt = """
-    The input for your task:
-    This is the Python3 code which not correspond to the given logical premises:
-    [[PYTHON3 CODE]]
-    It is supposed to translate the following text into rules:
-    [[INPUT TEXT]]
-    [[ERROR]]
-    Please correct the code.  
+The input for your task:
+This is the Python3 code which not correspond to the given logical premises:
+[[PYTHON3 CODE]]
+
+It is supposed to translate the following text into rules:
+[[INPUT TEXT]]
+
+[[ERROR]]
+
+Please correct the code.    
     """
 
     # Add system prompt

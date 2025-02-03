@@ -96,7 +96,6 @@ for idx in dataset_df.index:
     reasoning text to Python3 code so that these natural language reasoning problems can be solved.
     During the translation, please pay close attention to defining variables and rules.
     Do not add any comments from you.
-    Don't generate the same argument names of different functions!
     Be guided by the following example:
     Example input text:
     [[EXAMPLE_TEXT]]
@@ -118,7 +117,6 @@ for idx in dataset_df.index:
         reasoning text to Python3 code so that these natural language reasoning problems can be solved.
         During the translation, please pay close attention to defining variables and rules.
         Do not add any comments from you.
-        Don't generate the same argument names of different functions!
         Be guided by the following example:
         Example input text:
         [[EXAMPLE_TEXT]]
@@ -142,7 +140,7 @@ for idx in dataset_df.index:
     # Add Inconcext examples to the prompt
     
     # Get a prompt from a dataset
-    prompt = dataset_df["Prompt"][idx] + "To identify the day as abnormal, it is enough that even one or more conditions are violated."
+    prompt = dataset_df["Prompt"][idx] #+ "To identify the day as abnormal, it is enough that even one or more conditions are violated."
 
     # Prepare an input for Llama and Qwen models
     messages[1]["content"] = prompt
