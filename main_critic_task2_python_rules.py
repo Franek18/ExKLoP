@@ -15,23 +15,6 @@ parser.add_argument("--method", default="task2", type=str, help="Which method is
 args = parser.parse_args()
 
 
-# def select_function(outputs_dataset_df, idx):
-#     gt_answers = ast.literal_eval(outputs_dataset_df["Outlier"][idx])
-#     model_answers = ast.literal_eval(outputs_dataset_df["Outlier detection"][idx])
-#     python_output = outputs_dataset_df["Model output"][idx]
-
-#     all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
-
-#     error_message = "Model failed with generation of the proper logic for the following rules:\n"
-#     wrong_rules = []
-#     for model_answer, gt_answer in zip(model_answers, gt_answers):
-#             model_answer = model_answer.split(", ")
-#             gt_answer = gt_answer.split(", ")
-
-#             for model_rule_answer, gt_rule_answer, rule in zip(model_answer[1:], gt_answer[1:], all_rules):
-#                 if model_rule_answer != gt_rule_answer:
-#                     wrong_rules.append(rule)
-
 if args.model == "Mixtral":
     # Load Mixtral
     mixtral_path = "mistralai/Mixtral-8x7B-Instruct-v0.1"

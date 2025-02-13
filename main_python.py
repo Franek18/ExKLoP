@@ -8,6 +8,7 @@ from rules_generator import get_python_rules
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", default="Lllama-70", type=str, help="Which model to inference")
+parser.add_argument("--index", default=0, type=int, help="At which index start the dataset inference")
 args = parser.parse_args()
 
 
@@ -87,9 +88,10 @@ output_filename = f"outputs/Adapt_anonym_{args.model}_python_outputs.csv"
 # current_len = len(current_outputs_df.index)
 
 # A variable for current number of parameters in an input prompt
+start_idx = args.index
 curr_no_params = 0
 
-for idx in dataset_df.index:
+for idx in dataset_df.index[start_idx:]:
     # A MistralAI template for a prompt
     mistralai_prompt = """[INST] System Message:
     You are a logician with a background in mathematics that translates natural language

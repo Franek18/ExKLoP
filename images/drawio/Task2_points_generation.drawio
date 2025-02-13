@@ -1,0 +1,71 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.3 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36" version="26.0.3">
+  <diagram name="Strona-1" id="Dinn0xB3yAwZFXm59xIA">
+    <mxGraphModel dx="4780" dy="2797" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-1" value="&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 45px;&quot;&gt;List of parameters in a condition&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=top;whiteSpace=wrap;rounded=1;strokeColor=#000000;fillColor=#fff2cc;strokeWidth=2;gradientColor=#ffd966;" parent="1" vertex="1">
+          <mxGeometry x="27.5" y="16" width="1040" height="517" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-2" value="&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;&lt;b&gt;Parameters&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;total operation time, PTO operation time&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;total operation time, idle time&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;Axle 1 load, Axle 2 load&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;...&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#82b366;fillColor=#d5e8d4;gradientColor=#97d077;" parent="1" vertex="1">
+          <mxGeometry x="339.5" y="119" width="718" height="295" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-6" value="&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Types of relations between parameters&lt;/b&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=top;whiteSpace=wrap;rounded=1;strokeColor=#d6b656;fillColor=#fff2cc;strokeWidth=2;gradientColor=#ffd966;" parent="1" vertex="1">
+          <mxGeometry x="30.5" y="812" width="1040.5" height="734" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-19" value="&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;&lt;b&gt;Conditions&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;Condition 1&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;Condition 2&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;Condition 3&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 36px;&quot;&gt;...&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#996185;fillColor=#e6d0de;gradientColor=#d5739d;" parent="1" vertex="1">
+          <mxGeometry x="43.5" y="86" width="288" height="381" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-20" value="&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Param1 is greater than or equal to Param2&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Param1 &amp;gt;= Param2&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#6c8ebf;fillColor=#dae8fc;gradientColor=#7ea6e0;" parent="1" vertex="1">
+          <mxGeometry x="123" y="888" width="884" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-21" value="&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Param1 is lower than or equal to Param2&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Param1 &amp;lt;= Param2&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#6c8ebf;fillColor=#dae8fc;gradientColor=#7ea6e0;" parent="1" vertex="1">
+          <mxGeometry x="125" y="1090" width="884" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-24" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=6;" parent="1" source="X0taYLmrAjlMNf0w0s0f-1" target="X0taYLmrAjlMNf0w0s0f-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1113" y="1308" as="sourcePoint" />
+            <mxPoint x="1163" y="1258" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-23" value="&lt;div&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;Which relation in a condition?&amp;nbsp;&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#996185;fillColor=#e6d0de;gradientColor=#d5739d;" parent="1" vertex="1">
+          <mxGeometry x="352" y="595" width="391" height="139" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-25" value="&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;Generate 3 data points for each condition&lt;/b&gt;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; text-wrap-mode: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bb%20style%3D%26quot%3Bforced-color-adjust%3A%20none%3B%20color%3A%20light-dark(rgb(0%2C%200%2C%200)%2C%20rgb(255%2C%20255%2C%20255))%3B%20font-family%3A%20Helvetica%3B%20font-style%3A%20normal%3B%20font-variant-ligatures%3A%20normal%3B%20font-variant-caps%3A%20normal%3B%20letter-spacing%3A%20normal%3B%20orphans%3A%202%3B%20text-align%3A%20center%3B%20text-indent%3A%200px%3B%20text-transform%3A%20none%3B%20widows%3A%202%3B%20word-spacing%3A%200px%3B%20-webkit-text-stroke-width%3A%200px%3B%20white-space%3A%20normal%3B%20background-color%3A%20transparent%3B%20text-decoration-thickness%3A%20initial%3B%20text-decoration-style%3A%20initial%3B%20text-decoration-color%3A%20initial%3B%20font-size%3A%2040px%3B%26quot%3B%26gt%3BGenerate%20two%20points%20-%20one%20lower%20than%20minimal%20value%20(out-of-range)%20and%20one%20greater%20or%20equal%20than%20minimal%20value%20(in-range)%26lt%3B%2Fb%26gt%3B%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D1%3BstrokeColor%3D%236c8ebf%3BfillColor%3D%23dae8fc%3BgradientColor%3D%237ea6e0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22815%22%20y%3D%22841%22%20width%3D%22884%22%20height%3D%22192%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;span style=&quot;font-size: 45px;&quot;&gt;&lt;b&gt;&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=top;whiteSpace=wrap;rounded=1;strokeColor=#d6b656;fillColor=#fff2cc;strokeWidth=2;gradientColor=#ffd966;" parent="1" vertex="1">
+          <mxGeometry x="1283" y="726" width="1040" height="491" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-26" value="&lt;b style=&quot;forced-color-adjust: none; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: transparent; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 40px;&quot;&gt;Two data points meet the condition&lt;/b&gt;&lt;div&gt;&lt;b style=&quot;forced-color-adjust: none; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: transparent; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 40px;&quot;&gt;- in-range values&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#6c8ebf;fillColor=#dae8fc;gradientColor=#7ea6e0;" parent="1" vertex="1">
+          <mxGeometry x="1361" y="796" width="884" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-27" value="&lt;b style=&quot;forced-color-adjust: none; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: transparent; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 40px;&quot;&gt;One data point not meet the conidtion&lt;/b&gt;&lt;div&gt;&lt;b style=&quot;forced-color-adjust: none; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: transparent; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 40px;&quot;&gt;- out-of-range value&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#b85450;fillColor=#f8cecc;gradientColor=#ea6b66;" parent="1" vertex="1">
+          <mxGeometry x="1357" y="1002" width="884" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-29" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=6;edgeStyle=orthogonalEdgeStyle;" parent="1" source="X0taYLmrAjlMNf0w0s0f-6" target="X0taYLmrAjlMNf0w0s0f-25" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1113" y="1068" as="sourcePoint" />
+            <mxPoint x="1163" y="1018" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="551" y="1628" />
+              <mxPoint x="1803" y="1628" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-30" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Database&lt;/b&gt;&lt;/font&gt;&lt;div&gt;&lt;b style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;of&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;font-size: 40px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;validation&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;points&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;for&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Task 2&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;gradientColor=#b3b3b3;strokeColor=#666666;strokeWidth=3;" parent="1" vertex="1">
+          <mxGeometry x="1623" y="34" width="360" height="513" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-31" value="&lt;div&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 40px;&quot;&gt;For each condition&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#996185;fillColor=#e6d0de;gradientColor=#d5739d;" parent="1" vertex="1">
+          <mxGeometry x="1220" y="1435" width="473" height="127" as="geometry" />
+        </mxCell>
+        <mxCell id="X0taYLmrAjlMNf0w0s0f-32" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;strokeWidth=6;" parent="1" source="X0taYLmrAjlMNf0w0s0f-25" target="X0taYLmrAjlMNf0w0s0f-30" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1113" y="692" as="sourcePoint" />
+            <mxPoint x="1163" y="642" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JyvX1A8eDKLmWbaKbVVy-1" value="&lt;span style=&quot;font-size: 40px;&quot;&gt;&lt;b&gt;Param1 is greater than or equal to the sum of Param2, Param3, Param4&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;font-size: 40px;&quot;&gt;Param1 &amp;gt;= Param2 + Param3 + Param4&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeColor=#6c8ebf;fillColor=#dae8fc;gradientColor=#7ea6e0;" vertex="1" parent="1">
+          <mxGeometry x="122" y="1293" width="884" height="231" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
