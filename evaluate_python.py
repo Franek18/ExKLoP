@@ -2,12 +2,12 @@ import os
 import re
 import ast
 import glob
+import argparse
 import subprocess
 import numpy as np
 import pandas as pd
 
 from tqdm import tqdm
-from sklearn.metrics import f1_score, precision_score, recall_score
 
 
 def generate_final_rule_task1(prompt_params):
@@ -567,7 +567,7 @@ def generate_full_validation_report(is_revised, task, model_name, model_outputs,
     model_outputs_df = pd.read_csv(model_outputs, keep_default_na=False, delimiter=";", header=0)
 
     if not is_revised:
-        report_dict = {"Prompt": [], "Premises": [], "No. of parameters": [], "Parameters": [], "Model": [], "Model output": [], "Syntax eval": [], "Outlier": [], "Outlier detection": []}
+        report_dict = {"Prompt": [], "Premises": [], "No. of parameters": [], "Parameters": [], "Model": [], "Model output": [], "Syntax eval": [], "Out-of-range": [], "Out-of-range detection": []}
 
         print(f"Evaluation of model: {model_name}")
         #Load a csv file with outputs from LLMs
@@ -599,8 +599,9 @@ def generate_full_validation_report(is_revised, task, model_name, model_outputs,
 
 def calculate_metrics(report_filenames_expr, results_filename):
     report_filenames = glob.glob(report_filenames_expr)
+    task = report_filenames[0].split("/")[2]
 
-    metrics_results = {"Model": [], "Formalization": [], "Correctness": [], "Overall": []}
+    metrics_results = {"Model": [], "Formalization": [], "Overall": []}
 
     for report_filename in report_filenames:
         model_name = report_filename.split("/")[-1].split("_")[3]
@@ -608,6 +609,10 @@ def calculate_metrics(report_filenames_expr, results_filename):
         #     model_name = report_filename.split("/")[-1].split("_")[-4]
 
         report_df = pd.read_csv(report_filename, delimiter=";", header=0)
+
+        if task == "task2":
+            report_df = report_df[report_df["No. of parameters"] > 1]
+            print(len(report_df.index))
 
         metrics_results["Model"].append(model_name)
 
@@ -620,12 +625,11 @@ def calculate_metrics(report_filenames_expr, results_filename):
 
         # Calculate Correctness Accuracy (CA)
         # gt_answers = report_df["Outlier"]
-        # TODO remove cases when both columns have values "Error"
         correct_rules_df = report_df[report_df["Outlier"] == report_df["Outlier detection"]]
         no_correct_rules = len(correct_rules_df.index)
-        CA = round(no_correct_rules / no_correct_syntax, 2)   
+        # CA = round(no_correct_rules / no_correct_syntax, 2)   
 
-        metrics_results["Correctness"].append(CA)
+        # metrics_results["Correctness"].append(CA)
 
         # Calculate Overall Accuracy (OA)
         OA = round(no_correct_rules / len(report_df.index), 2)
@@ -655,101 +659,52 @@ def update_outputs(model_name, model_report, original_model_outputs, corrected_m
     original_model_outputs_df.to_csv(results_filename, sep=";", columns=list(original_model_outputs_df.keys()), index=False)
 
 
-# update_outputs("Llama-70", "results/New_eval/New_val_Adapt_Llama-70_results.csv", "outputs/Adapt_anonym_Llama-70_outputs.csv", "outputs/critic_syntax/task1_Llama-70_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Llama-70_outputs_syntax.csv")
-# update_outputs("Llama-8", "results/New_eval/New_val_Adapt_Llama-8_results.csv", "outputs/Adapt_anonym_Llama-8_outputs.csv", "outputs/critic_syntax/task1_Llama-8_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Llama-8_outputs_syntax.csv")
-# update_outputs("Mistral", "results/New_eval/New_val_Adapt_Mistral_results.csv", "outputs/Adapt_anonym_Mistral_outputs.csv", "outputs/critic_syntax/task1_Mistral_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Mistral_outputs_syntax.csv")
-# update_outputs("Mixtral", "results/New_eval/New_val_Adapt_Mixtral_results.csv", "outputs/Adapt_anonym_Mixtral_outputs.csv", "outputs/critic_syntax/task1_Mixtral_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Mixtral_outputs_syntax.csv")
-# update_outputs("Qwen", "results/New_eval/New_val_Adapt_Qwen_results.csv", "outputs/Adapt_anonym_Qwen_outputs.csv", "outputs/critic_syntax/task1_Qwen_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Qwen_outputs_syntax.csv")
-# update_outputs("Gemma", "results/New_eval/New_val_Adapt_Gemma_results.csv", "outputs/Adapt_anonym_Gemma_outputs.csv", "outputs/critic_syntax/task1_Gemma_new_val_critic_outputs.csv", "outputs/Adapt_anonym_Gemma_outputs_syntax.csv")
+parser = argparse.ArgumentParser()
+parser.add_argument("--task", default="Task1", type=str, help="Outputs from which task you want to evaluate - Task1|Task2")
+parser.add_argument("--step", default="first", type=str, help="Outputs from which step of inference you want to evaluate - first|syntax|runtime|logic")
+parser.add_argument("--refinement", default=False, type=bool, help="Is this an output from the refinement step - False|True?")
 
-# generate_full_validation_report(False, "Task1", "Llama-70", "outputs/Adapt_anonym_Llama-70_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-70_first_python_results.csv")
-# generate_full_validation_report(False, "Task1", "Llama-8", "outputs/Adapt_anonym_Llama-8_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-8_first_python_results.csv")
-# generate_full_validation_report(False, "Task1", "Mistral", "outputs/Adapt_anonym_Mistral_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mistral_first_python_results.csv")
-# generate_full_validation_report(False, "Task1", "Mixtral", "outputs/Adapt_anonym_Mixtral_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mixtral_first_python_results.csv")
-# generate_full_validation_report(False, "Task1", "Qwen", "outputs/Adapt_anonym_Qwen_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Qwen_first_python_results.csv")
-# generate_full_validation_report(False, "Task1", "Gemma", "outputs/Adapt_anonym_Gemma_python_outputs.csv", "New_val_Adapt_Task1_python_outputs_first", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Gemma_first_python_results.csv")
+args = parser.parse_args()
+task = args.task
+step = args.step
+is_refinement = args.refinement
 
-# calculate_metrics("results/New_eval/*_first_python_results.csv", "metrics/new_Adapt_task1_first_python_metrics.csv")
+if task == "Task1":
+    task_dir = "Python_task1"
+    premises_dataset = "data/dataset_premises.csv"
+    points_dataset = "data/points_dataset.csv"
+else:
+    task_dir = "Python_task2"
+    premises_dataset = "data/upgraded_task2_dataset_premises.csv"
+    points_dataset = "data/task2_points_dataset.csv"
 
-# generate_full_validation_report(False, "Task1", "Llama-70", "outputs/Adapt_anonym_Llama-70_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-70_critic_syntax_results.csv")
-# generate_full_validation_report(False, "Task1", "Llama-8", "outputs/Adapt_anonym_Llama-8_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-8_critic_syntax_results.csv")
-# generate_full_validation_report(False, "Task1", "Mistral", "outputs/Adapt_anonym_Mistral_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mistral_critic_syntax_results.csv")
-# generate_full_validation_report(False, "Task1", "Mixtral", "outputs/Adapt_anonym_Mixtral_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mixtral_critic_syntax_results.csv")
-# generate_full_validation_report(False, "Task1", "Qwen", "outputs/Adapt_anonym_Qwen_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Qwen_critic_syntax_results.csv")
-# generate_full_validation_report(False, "Task1", "Gemma", "outputs/Adapt_anonym_Gemma_outputs_syntax.csv", "New_val_Adapt_Task1_outputs_critic_syntax", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Gemma_critic_syntax_results.csv")
+if step == "first":
+    outputs_format = "Adapt_anonym_*_python_outputs.csv"
+elif step == "syntax":
+    outputs_format = "Adapt_anonym_*_critic_syntax_task1_python_outputs_no_final_rule.csv"
+elif step == "runtime":
+    outputs_format = "Adapt_anonym_*_critic_runtime_task1_python_outputs_no_final_rule.csv"
+elif step == "logic":
+    outputs_format = "Adapt_anonym_*_critic_rules_task1_python_outputs_no_final_rule.csv"
 
-# calculate_metrics("results/New_eval/*_critic_syntax_results.csv", "metrics/new_Adapt_task1_critic_syntax_metrics.csv")
+outputs_dir = task + "_" + step + "_" + "outputs"
+outputs_to_evaluate = glob.glob(f"outputs/{task_dir}/{outputs_format}")
 
-# generate_full_validation_report(True, "Task1", "Llama-70", "outputs/task1_Llama-70_new_val_critic_rules_outputs.csv", "New_val_Adapt_Task1_outputs_critic_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-70_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Llama-8", "outputs/task1_Llama-8_new_val_critic_rules_python_outputs.csv", "New_val_Adapt_Task1_outputs_critic_python_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-8_critic_python_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Mistral", "outputs/task1_Mistral_new_val_critic_rules_python_outputs.csv", "New_val_Adapt_Task1_outputs_critic_python_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mistral_critic_python_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Mixtral", "outputs/task1_Mixtral_new_val_critic_rules_outputs.csv", "New_val_Adapt_Task1_outputs_critic_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Mixtral_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Qwen", "outputs/task1_Qwen_new_val_critic_rules_python_outputs.csv", "New_val_Adapt_Task1_outputs_critic_python_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Qwen_critic_python_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Gemma", "outputs/task1_Gemma_new_val_critic_rules_python_outputs.csv", "New_val_Adapt_Task1_outputs_critic_python_rules", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Gemma_critic_python_rules_results.csv")
+if not os.path.exists("results"):
+    os.mkdir("results")
 
-# generate_full_validation_report(True, "Task1", "Llama-8", "outputs/task1_Llama-8_new_val_critic_rules_python_outputs_incontext_upgrade.csv", "New_val_Adapt_Task1_outputs_critic_python_rules_incontext_upgrade", "data/dataset_premises.csv", "data/points_dataset.csv", "results/New_eval/New_val_Adapt_Llama-8_critic_python_rules_incontext_upgrade_results.csv")
-# calculate_metrics("results/New_eval/*_critic_python_rules_incontext_upgrade_results.csv", "metrics/new_Adapt_task1_critic_python_rules_metrics.csv")
+if not os.path.exists(f"results/{step}"):
+    os.mkdir(f"results/{step}")
 
-# generate_full_validation_report(False, "Task2", "Llama-8", "new_outputs/Python_task2/Adapt_anonym_Llama-8_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Llama-8_task2_python_results_no_final_rule.csv")
-# generate_full_validation_report(False, "Task2", "Llama-70", "new_outputs/Python_task2/Adapt_anonym_Llama-70_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Llama-70_task2_python_results_no_final_rule.csv")
-# generate_full_validation_report(False, "Task2", "Mistral", "new_outputs/Python_task2/Adapt_anonym_Mistral_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Mistral_task2_python_results_no_final_rule.csv")
-# generate_full_validation_report(False, "Task2", "Mixtral", "new_outputs/Python_task2/Adapt_anonym_Mixtral_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Mixtral_task2_python_results_no_final_rule.csv")
-# generate_full_validation_report(False, "Task2", "Qwen", "new_outputs/Python_task2/Adapt_anonym_Qwen_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Qwen_task2_python_results_no_final_rule.csv")
-# generate_full_validation_report(False, "Task2", "Gemma", "new_outputs/Python_task2/Adapt_anonym_Gemma_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/first_iter/task2/New_val_Adapt_Gemma_task2_python_results_no_final_rule.csv")
+if not os.path.exists(f"results/{step}/{task}"):
+    os.mkdir(f"results/{step}/{task}")
 
-# calculate_metrics("results/first_iter/task2/New_val_Adapt_*_task2_python_results_no_final_rule.csv", "metrics/Python/New_val_Adapt_task2_python_rules_no_final_rule_metrics.csv")
+if not os.path.exists("metrics"):
+    os.mkdir("metrics")
 
-# generate_full_validation_report(True, "Task2", "Llama-70", "new_outputs/Python_task2/Adapt_anonym_Llama-70_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Llama-70_task2_critic_runtime_python_results_no_final_rule.csv")
-# generate_full_validation_report(True, "Task2", "Llama-8", "new_outputs/Python_task2/Adapt_anonym_Llama-8_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Llama-8_task2_critic_runtime_python_results_no_final_rule.csv")
-# generate_full_validation_report(True, "Task2", "Mixtral", "new_outputs/Python_task2/Adapt_anonym_Mixtral_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Mixtral_task2_critic_runtime_python_results_no_final_rule.csv")
-# generate_full_validation_report(True, "Task2", "Mistral", "new_outputs/Python_task2/Adapt_anonym_Mistral_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Mistral_task2_critic_runtime_python_results_no_final_rule.csv")
-# generate_full_validation_report(True, "Task2", "Gemma", "new_outputs/Python_task2/Adapt_anonym_Gemma_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Gemma_task2_critic_runtime_python_results_no_final_rule.csv")
-# generate_full_validation_report(True, "Task2", "Qwen", "new_outputs/Python_task2/Adapt_anonym_Qwen_critic_runtime_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_runtime_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/runtime/task2/New_val_Adapt_Qwen_task2_critic_runtime_python_results_no_final_rule.csv")
+for output_filename in outputs_to_evaluate:
+    model_name = output_filename.split("/")[-1].split("_")[2]
+    results_format = f"results/{step}/{task}/{model_name}_results.csv"
+    generate_full_validation_report(is_refinement, task, model_name, output_filename, outputs_dir, premises_dataset, points_dataset, results_format)
 
-
-# calculate_metrics("results/runtime/task2/New_val_Adapt_*_task2_critic_runtime_python_results_no_final_rule.csv", "metrics/Python/New_val_Adapt_task2_critic_runtime_python_rules_no_final_rule_metrics.csv")
-
-generate_full_validation_report(True, "Task2", "Llama-70", "new_outputs/Python_task2/Adapt_anonym_Llama-70_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Llama-70_task2_critic_rules_python_results_no_final_rule.csv")
-generate_full_validation_report(True, "Task2", "Llama-8", "new_outputs/Python_task2/Adapt_anonym_Llama-8_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Llama-8_task2_critic_rules_python_results_no_final_rule.csv")
-generate_full_validation_report(True, "Task2", "Mixtral", "new_outputs/Python_task2/Adapt_anonym_Mixtral_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Mixtral_task2_critic_rules_python_results_no_final_rule.csv")
-generate_full_validation_report(True, "Task2", "Mistral", "new_outputs/Python_task2/Adapt_anonym_Mistral_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Mistral_task2_critic_rules_python_results_no_final_rule.csv")
-generate_full_validation_report(True, "Task2", "Gemma", "new_outputs/Python_task2/Adapt_anonym_Gemma_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Gemma_task2_critic_rules_python_results_no_final_rule.csv")
-generate_full_validation_report(True, "Task2", "Qwen", "new_outputs/Python_task2/Adapt_anonym_Qwen_critic_rules_task2_python_outputs_no_final_rule.csv", "New_val_Adapt_Task2_outputs_python_critic_rules_no_final_rule", "data/upgraded_task2_dataset_premises.csv", "data/task2_points_dataset.csv", "results/critic_rules/task2/New_val_Adapt_Qwen_task2_critic_rules_python_results_no_final_rule.csv")
-
-
-calculate_metrics("results/critic_rules/task2/New_val_Adapt_*_task2_critic_rules_python_results_no_final_rule.csv", "metrics/Python/New_val_Adapt_task2_critic_rules_python_rules_no_final_rule_metrics.csv")
-
-# generate_full_validation_report(False, "Task1", "Llama-70", "outputs/Python_task1/Adapt_anonym_Llama-70_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Llama-70_results.csv")
-# generate_full_validation_report(False, "Task1", "Llama-8", "outputs/Python_task1/Adapt_anonym_Llama-8_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Llama-8_results.csv")
-# generate_full_validation_report(False, "Task1", "Mistral", "outputs/Python_task1/Adapt_anonym_Mistral_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Mistral_results.csv")
-# generate_full_validation_report(False, "Task1", "Mixtral", "outputs/Python_task1/Adapt_anonym_Mixtral_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Mixtral_results.csv")
-# generate_full_validation_report(False, "Task1", "Qwen", "outputs/Python_task1/Adapt_anonym_Qwen_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Qwen_results.csv")
-# generate_full_validation_report(False, "Task1", "Gemma", "outputs/Python_task1/Adapt_anonym_Gemma_python_outputs.csv", "New_val_Adapt_Task1_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/first_iter/task1/New_val_Adapt_Gemma_results.csv")
-
-# calculate_metrics("results/first_iter/task1/New_val_Adapt_*_results.csv", "metrics/Python/New_val_Adapt_task1_first_python_rules_metrics.csv")
-
-# generate_full_validation_report(True, "Task1", "Llama-70", "outputs/Python_task1/Adapt_anonym_Llama-70_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Llama-70_critic_syntax_results.csv")
-# generate_full_validation_report(True, "Task1", "Llama-8", "outputs/Python_task1/Adapt_anonym_Llama-8_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Llama-8_critic_syntax_results.csv")
-# generate_full_validation_report(True, "Task1", "Mistral", "outputs/Python_task1/Adapt_anonym_Mistral_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Mistral_critic_syntax_results.csv")
-# generate_full_validation_report(True, "Task1", "Mixtral", "outputs/Python_task1/Adapt_anonym_Mixtral_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Mixtral_critic_syntax_results.csv")
-# generate_full_validation_report(True, "Task1", "Qwen", "outputs/Python_task1/Adapt_anonym_Qwen_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Qwen_critic_syntax_results.csv")
-# generate_full_validation_report(True, "Task1", "Gemma", "outputs/Python_task1/Adapt_anonym_Gemma_critic_syntax_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_syntax_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/syntax/task1/New_val_Adapt_Gemma_critic_syntax_results.csv")
-
-# calculate_metrics("results/syntax/task1/New_val_Adapt_*_critic_syntax_results.csv", "metrics/Python/New_val_Adapt_task1_syntax_python_rules_metrics.csv")
-
-# generate_full_validation_report(True, "Task1", "Llama-70", "outputs/Python_task1/Adapt_anonym_Llama-70_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Llama-70_critic_runtime_results.csv")
-# generate_full_validation_report(True, "Task1", "Llama-8", "outputs/Python_task1/Adapt_anonym_Llama-8_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Llama-8_critic_runtime_results.csv")
-# generate_full_validation_report(True, "Task1", "Mistral", "outputs/Python_task1/Adapt_anonym_Mistral_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Mistral_critic_runtime_results.csv")
-# generate_full_validation_report(True, "Task1", "Mixtral", "outputs/Python_task1/Adapt_anonym_Mixtral_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Mixtral_critic_runtime_results.csv")
-# generate_full_validation_report(True, "Task1", "Qwen", "outputs/Python_task1/Adapt_anonym_Qwen_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Qwen_critic_runtime_results.csv")
-# generate_full_validation_report(True, "Task1", "Gemma", "outputs/Python_task1/Adapt_anonym_Gemma_critic_runtime_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_runtime_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Gemma_critic_runtime_results.csv")
-
-# calculate_metrics("results/runtime/task1/New_val_Adapt_*_critic_runtime_results.csv", "metrics/Python/New_val_Adapt_task1_runtime_python_rules_metrics.csv")
-
-# generate_full_validation_report(True, "Task1", "Llama-8", "outputs/Python_task1/Adapt_anonym_Llama-8_critic_rules_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_rules_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Llama-8_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Mistral", "outputs/Python_task1/Adapt_anonym_Mistral_critic_rules_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_rules_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Mistral_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Mixtral", "outputs/Python_task1/Adapt_anonym_Mixtral_critic_rules_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_rules_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Mixtral_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Qwen", "outputs/Python_task1/Adapt_anonym_Qwen_critic_rules_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_rules_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Qwen_critic_rules_results.csv")
-# generate_full_validation_report(True, "Task1", "Gemma", "outputs/Python_task1/Adapt_anonym_Gemma_critic_rules_task1_python_outputs_no_final_rule.csv", "New_val_Adapt_Task1_critic_rules_outputs", "data/dataset_premises.csv", "data/points_dataset.csv", "results/runtime/task1/New_val_Adapt_Gemma_critic_rules_results.csv")
-
-# calculate_metrics("results/runtime/task1/New_val_Adapt_*_critic_rules_results.csv", "metrics/Python/New_val_Adapt_task1_rules_python_rules_metrics.csv")
+calculate_metrics(f"results/{step}/{task}/*_results.csv", f"metrics/{task}_{step}_metrics.csv")
