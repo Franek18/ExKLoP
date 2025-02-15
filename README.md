@@ -1,7 +1,7 @@
 # PyLogExKn: Evaluating Expert Knowledge Integration in Python-Based Logical Rules
 This repository contains code implementation for the [paper]().
 
-![](images/png/Python_rules_gen_diagram.png)
+![](images/png/framework_diagram.png)
 
 ## Repository structure
 The repository structure look as follow:
@@ -28,14 +28,36 @@ The repository structure look as follow:
 
 ## Experiments:
 ### Setup
+Main packages needed for running a repo:
+```
+- Python==3.10
+- transformers==4.43.1
+- accelerate==0.33.0
+- tqdm==4.66.1
+- pandas==2.2.0
+- torch==2.1.2
+- seaborn==0.13.2
+- CUDA==12.1
+```
+
+To install python libraries:
 ```console
 pip install -r requirements.txt
 ```
 
+### Running a code
 To run an experiment's script (e.g. task1 first inference):
 ```console
 python main_python.py --model model_name
 ```
+Possible models names:
+- Llama-70
+- Llama-8
+- Mixtral
+- Mistral
+- Qwen
+- Gemma
+
 ### Task 1 - scripts
 
 - For first inference: `main_python.py`
@@ -49,6 +71,17 @@ python main_python.py --model model_name
 - For syntax correction: `main_critic_task2_python_suntax.py`
 - For code correction: `main_critic_task2_python_runtime.py`
 - For logic correction: `main_critic_task2_python_rules.py`
+
+### Evaluation
+To run an evaluation script:
+```console
+python evaluation_python.py --task Task1 --step first --refinement False
+```
+Where parameters could be:
+
+- **task** - *Task1* or *Task2*
+- **step** - *first*, *syntax*, *runtime* or *logic*
+- **refinement** - *True* or *False* whether it is initial inference or one of the refinements steps
 
 ## Results
 
