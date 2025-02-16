@@ -1,4 +1,4 @@
-# PyLogExKn: Evaluating Expert Knowledge Integration in Python-Based Logical Rules
+# ExKLoP: Integrating Expert Knowledge into Logical Programs via LLMs
 This repository contains code implementation for the [paper]().
 
 ![](images/png/framework_diagram.png)
