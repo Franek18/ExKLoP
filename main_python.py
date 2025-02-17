@@ -67,25 +67,12 @@ elif args.model == "Gemma":
         gemma = transformers.AutoModelForCausalLM.from_pretrained(gemma_path, device_map="auto", torch_dtype=torch.bfloat16)
 
 
-# Load an In-context example of a rules defined in natural language
-# f = open("templates/example_text.txt")
-# example_text = f.read()
-# f.close()
-
-# # Load an Incontext example of a lean4 rules
-# f = open("templates/example_lean.lean")
-# example = f.read()
-# f.close()
-
 dataset_df = pd.read_csv("data/dataset_premises.csv", delimiter=";", header=0)
 
 results = {"Prompt": [], args.model: []}
 
 output_filename = f"outputs/Adapt_anonym_{args.model}_python_outputs.csv"
 
-# current_outputs_df = pd.read_csv(f"outputs/{args.model}_outputs.csv", delimiter=";", header=0)
-
-# current_len = len(current_outputs_df.index)
 
 # A variable for current number of parameters in an input prompt
 start_idx = args.index
@@ -137,12 +124,9 @@ for idx in dataset_df.index[start_idx:]:
     curr_no_params = no_of_params
     
     mistralai_prompt = mistralai_prompt.replace('[[EXAMPLE_TEXT]]', example_text).replace('[[EXAMPLE]]', example)
-
-    # print(messages[0]["content"])
-    # Add Inconcext examples to the prompt
     
     # Get a prompt from a dataset
-    prompt = dataset_df["Prompt"][idx] #+ "To identify the day as abnormal, it is enough that even one or more conditions are violated."
+    prompt = dataset_df["Prompt"][idx]
 
     # Prepare an input for Llama and Qwen models
     messages[1]["content"] = prompt
@@ -203,9 +187,6 @@ for idx in dataset_df.index[start_idx:]:
     elif args.model == "Mistral":
         # Prepare inputs for MistralAi models
         mistralai_prompt = mistralai_prompt.replace('[[INPUT]]', prompt)
-
-        # print(mistralai_prompt)
-        # print("-------------------------------------------")
 
         mistral_inputs = mistral_tokenizer([mistralai_prompt], return_tensors="pt")
         mistral_generated_ids = mistral.generate(**mistral_inputs, max_new_tokens=2048, temperature=0, do_sample=False)

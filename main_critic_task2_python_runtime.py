@@ -68,33 +68,15 @@ elif args.model == "Gemma":
         gemma_tokenizer = transformers.AutoTokenizer.from_pretrained(gemma_path)
         gemma = transformers.AutoModelForCausalLM.from_pretrained(gemma_path, device_map="auto", torch_dtype=torch.bfloat16)
 
-
-# Load an In-context example of a rules defined in natural language
-# f = open("templates/example_text.txt")
-# example_text = f.read()
-# f.close()
-
-# # Load an Incontext example of a lean4 rules
-# f = open("templates/example_lean.lean")
-# example = f.read()
-# f.close()
 method = args.method
-# outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_Llama-70_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
+
 outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
 
-# outputs_dataset_df = pd.read_csv(f"outputs/New_val_Adapt_{args.model}_task2_python_results_no_final_rule.csv", delimiter=";", header=0)
 updated_outputs_df = copy.deepcopy(outputs_dataset_df)
-
-# results = {"Input text": [], f"{args.model} wrong output": [], "Error message": [], f"{args.model} new output": []}
-
-# current_outputs_df = pd.read_csv(f"outputs/{args.model}_outputs.csv", delimiter=";", header=0)
-
-# current_len = len(current_outputs_df.index)
 
 # A variable for current number of parameters in an input prompt
 curr_no_params = 0
 
-# output_filename = f"outputs/Adapt_anonym_Llama-70_critic_runtime_task2_python_outputs_no_final_rule.csv"
 output_filename = f"outputs/Adapt_anonym_{args.model}_critic_runtime_task2_python_outputs_no_final_rule.csv"
 
 f = open("templates/critic_task2_python_runtime_system_prompt.txt")
@@ -103,7 +85,6 @@ f.close()
 
 for idx in outputs_dataset_df.index:
 
-    # lean_error = outputs_dataset_df[f"{args.model} syntax evaluation"][idx]
     gt_answers = outputs_dataset_df["Outlier"][idx]
     model_answers = outputs_dataset_df["Outlier detection"][idx]
 
@@ -157,8 +138,6 @@ Please correct the code.
 
     mistralai_prompt = mistralai_prompt.replace('[[PYTHON3 CODE]]', wrong_python_code).replace('[[INPUT TEXT]]', input_text).replace('[[ERROR]]', error_message)
     user_prompt = user_prompt.replace('[[PYTHON3 CODE]]', wrong_python_code).replace('[[INPUT TEXT]]', input_text).replace('[[ERROR]]', error_message)
-    # print(messages[0]["content"])
-    # Add Inconcext examples to the prompt
 
     # Prepare an input for Llama and Qwen models
     messages[1]["content"] = user_prompt
@@ -238,28 +217,7 @@ Please correct the code.
 
     updated_outputs_df["Prompt"][idx] = system_prompt + "\n" + user_prompt
 
-    # updated_outputs_df.loc[:, ("Model output", idx)]
     updated_outputs_df["Model output"][idx] = output
-
-    # print(output)
-
-    # break
 
 
 updated_outputs_df.to_csv(output_filename, sep=";", columns=list(updated_outputs_df.keys()), index=False)
-
-#     if idx % 50 == 0:
-#         print(f"Idx == {idx} - saving batch of data")
-#         result_pd = pd.DataFrame(results)
-#         if not os.path.exists(output_filename):
-#             result_pd.to_csv(output_filename, sep=";", columns=list(results.keys()), index=False)
-#         else:
-#             result_pd.to_csv(output_filename, sep=";", mode='a', index=False, header=False)
-
-#         results["Input text"] = []
-#         results[f"{args.model} wrong output"] = []
-#         results["Error message"] = []
-#         results[f"{args.model} new output"] = []
-
-# result_pd = pd.DataFrame(results)
-# result_pd.to_csv(output_filename, sep=";", mode='a', index=False, header=False)

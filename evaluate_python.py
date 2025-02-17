@@ -137,8 +137,6 @@ def evaluate_outputs_syntax(task, is_revised, model_name, outputs_df, report_dic
                 all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
                 # We must get indices of premises inside the prompt
                 no_used_conditions = premises_dataset_df["Number of conditions"][idx]
-                # used_conditions = outputs_df["Prompt"][idx].split("Textual context: ")[-1].split("\n")[:-1]
-                # no_used_conditions = len(used_conditions)
                 report_dict["No. of parameters"].append(no_used_conditions)
                 report_dict["Parameters"].append(premises_dataset_df["Parameters"][idx])
 
@@ -157,19 +155,6 @@ def evaluate_outputs_syntax(task, is_revised, model_name, outputs_df, report_dic
 
                 # Genereta a final rule for a python code
                 final_rule = generate_final_rule_task1(used_params)
-
-                        # parameter_outliers = points_dataset_df[points_dataset_df["Parameter"] == parameter]["Outlier"].to_list()
-                        # if sum(parameter_outliers) > 0:
-                        #     is_outlier = True
-                            # break       
-                # if is_outlier:
-                #     report_dict["Outlier"].append(True)
-                #     # By default we negate Outlier detection which will be change in second evaluation step
-                #     report_dict["Outlier detection"].append(False)                
-                # elif not is_outlier:
-                #     report_dict["Outlier"].append(False)
-                #     # By default we negate Outlier detection which will be change in second evaluation step
-                #     report_dict["Outlier detection"].append(True)
 
             report_dict["Outlier"].append("Error")
             # By default we negate Outlier detection which will be change in second evaluation step

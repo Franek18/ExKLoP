@@ -11,7 +11,7 @@ from rules_generator import get_rules
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", default="Lllama-70", type=str, help="Which model to inference")
-parser.add_argument("--method", default="task2", type=str, help="Which method is used for solving problem: task2_zero|task2")
+parser.add_argument("--method", default="task1", type=str, help="Which method is used for solving problem: task1")
 args = parser.parse_args()
 
 
@@ -70,18 +70,16 @@ elif args.model == "Gemma":
         gemma = transformers.AutoModelForCausalLM.from_pretrained(gemma_path, device_map="auto", torch_dtype=torch.bfloat16)
 
 
-
 method = args.method
-outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_task2_critic_runtime_python_results_no_final_rule.csv", delimiter=";", header=0)
+outputs_dataset_df = pd.read_csv(f"results/New_eval/New_val_Adapt_{args.model}_critic_runtime_results.csv", delimiter=";", header=0)
 updated_outputs_df = copy.deepcopy(outputs_dataset_df)
-
 
 # A variable for current number of parameters in an input prompt
 curr_no_params = 0
 
-output_filename = f"outputs/Adapt_anonym_{args.model}_critic_rules_task2_python_outputs_no_final_rule.csv"
+output_filename = f"outputs/Adapt_anonym_{args.model}_critic_rules_task1_python_outputs_no_final_rule.csv"
 
-f = open("templates/critic_task2_python_rules_system_prompt.txt")
+f = open("templates/critic_task1_python_rules_system_prompt.txt")
 system_prompt = f.read()
 f.close()
 
@@ -100,7 +98,7 @@ for idx in outputs_dataset_df.index:
     python_output = outputs_dataset_df["Model output"][idx]
 
     # Retrieve the implemantation of all rules (without the final rule) from model's output
-    all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
+    all_rules = re.findall(r"def .+?:\n\s+return .+", python_output)
 
     error_message = "Model failed with generation of the proper logic for the following rules:\n"
     wrong_rules = []
@@ -251,6 +249,7 @@ Please correct the code.
 
     updated_outputs_df["Prompt"][idx] = system_prompt + "\n" + user_prompt
 
+    # updated_outputs_df.loc[:, ("Model output", idx)]
     updated_outputs_df["Model output"][idx] = output
 
 

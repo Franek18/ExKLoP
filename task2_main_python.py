@@ -65,33 +65,19 @@ elif args.model == "Gemma":
         gemma_tokenizer = transformers.AutoTokenizer.from_pretrained(gemma_path)
         gemma = transformers.AutoModelForCausalLM.from_pretrained(gemma_path, device_map="auto", torch_dtype=torch.bfloat16)
 
-# Load an In-context example of a rules defined in natural language
-# f = open("templates/example_text.txt")
-# example_text = f.read()
-# f.close()
-
-# # Load an Incontext example of a lean4 rules
-# f = open("templates/example_lean.lean")
-# example = f.read()
-# f.close()
 
 dataset_df = pd.read_csv("data/upgraded_task2_dataset_premises.csv", delimiter=";", header=0)
 
 results = {"Prompt": [], args.model: []}
 
 output_filename = f"outputs/Adapt_anonym_{args.model}_task2_python_outputs_no_final_rule.csv"
-# current_outputs_df = pd.read_csv(f"outputs/task2_{args.model}_outputs.csv", delimiter=";", header=0)
 
-# current_len = len(current_outputs_df.index)
 
 # A variable for current number of parameters in an input prompt
 curr_no_params = 0
 
-    # Take care to call the same parameters in different functions by different names,
-    # so that the final function takes the number of parameters equal to the sum of all parameters used in the object but not lower.
-
 # for idx in dataset_df.index:
-for idx in dataset_df.index:#range(0, 400, 50):
+for idx in dataset_df.index:
 
     # A MistralAI template for a prompt
     mistralai_prompt = """[INST] System Message:
@@ -138,9 +124,6 @@ for idx in dataset_df.index:#range(0, 400, 50):
     curr_no_params = no_of_params
     
     mistralai_prompt = mistralai_prompt.replace('[[EXAMPLE_TEXT]]', example_text).replace('[[EXAMPLE]]', example)
-
-    # print(messages[0]["content"])
-    # Add Inconcext examples to the prompt
     
     # Get a prompt from a dataset
     prompt = dataset_df["Prompt"][idx] #+ "To identify the day as abnormal, it is enough that even one or more conditions are violated."
@@ -205,9 +188,6 @@ for idx in dataset_df.index:#range(0, 400, 50):
         # Prepare inputs for MistralAi models
         mistralai_prompt = mistralai_prompt.replace('[[INPUT]]', prompt)
 
-        # print(mistralai_prompt)
-        # print("-------------------------------------------")
-
         mistral_inputs = mistral_tokenizer([mistralai_prompt], return_tensors="pt")
         mistral_generated_ids = mistral.generate(**mistral_inputs, max_new_tokens=2048, temperature=0, do_sample=False)
         output = mistral_tokenizer.batch_decode(mistral_generated_ids)[0]
@@ -248,5 +228,4 @@ for idx in dataset_df.index:#range(0, 400, 50):
         results[args.model] = []
 
 result_pd = pd.DataFrame(results)
-# result_pd.to_csv(output_filename, sep=";", columns=list(results.keys()), index=False)
 result_pd.to_csv(output_filename, sep=";", mode='a', index=False, header=False)
