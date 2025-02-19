@@ -1,5 +1,5 @@
 # Integrating Expert Knowledge into Logical Programs via LLMs
-This repository contains code implementation for the [paper]().
+This repository contains code implementation for the [paper](https://arxiv.org/abs/2502.12275).
 
 ![](images/png/framework_diagram.png)
 
