@@ -96,11 +96,12 @@ def evaluate_outputs_syntax(task, is_revised, model_name, outputs_df, report_dic
 
             if task == "Task2":
                 all_rules = re.findall(r"def\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*\)\s*->\s*[a-zA-Z_][a-zA-Z0-9_]*:\n(?: {4}.+\n?)+", python_output)
-                # TODO any changes needed here?
+                # For refinement we don't genereta a final rule because it's already there
                 final_rule = generate_final_rule_task2(premises_dataset_df[["Number of conditions", "Parameters"]], idx)
                 # We must get indices of premises inside the prompt
             else:
                 prompt_params = ast.literal_eval(outputs_df["Parameters"][idx])
+                # For refinement we don't genereta a final rule because it's already there
                 final_rule = generate_final_rule_task1(prompt_params)
                 all_rules = re.findall(r"def .+?:\n\s+return .+", python_output)
 
@@ -115,7 +116,8 @@ def evaluate_outputs_syntax(task, is_revised, model_name, outputs_df, report_dic
 
             
             # Add final rule to the code
-            python_code += "\n" + final_rule
+            if final_rule not in python_code:
+                python_code += "\n" + final_rule
             report_dict["Model output"][idx] = python_code
 
     else:
@@ -455,7 +457,7 @@ def evaluate_outputs(task, model_name, Lean_dir_all, report_dict):
                 # So we must to check standard error output
                 error_answer = python_err
                 # print(error_answer)
-                print(f"{python_code} has wrong rules (empty stdout)")
+                # print(f"{python_code} has wrong rules (empty stdout)")
                 # continue
 
             # Retrieve all answers for each validation set of points
@@ -489,7 +491,8 @@ def evaluate_outputs(task, model_name, Lean_dir_all, report_dict):
             if task == "Task1":
                 # TODO watch this part of code, looking for potential errors in logic
                 if error_answer != '':
-                    print(f"Error answer:{error_answer}")
+                    # print(f"Error answer:{error_answer}")
+                    report_dict["Outlier"][prompt_no] = "Error"
                     report_dict["Outlier detection"][prompt_no] = error_answer
                 else:
                     gt_answers = []
@@ -518,10 +521,11 @@ def evaluate_outputs(task, model_name, Lean_dir_all, report_dict):
             elif task == "Task2":
                 # print(error_answer)
                 if error_answer != '':
-                    print(f"Error answer:{error_answer}")
+                    # print(f"Error answer:{error_answer}")
+                    report_dict["Outlier"][prompt_no] = "Error"
                     report_dict["Outlier detection"][prompt_no] = error_answer
                 else:
-                    print(eval_datapoints)
+                    # print(eval_datapoints)
                     is_outlier = False
                     gt_answers = []
                     # Iterate over each validation call
@@ -552,7 +556,7 @@ def generate_full_validation_report(is_revised, task, model_name, model_outputs,
     model_outputs_df = pd.read_csv(model_outputs, keep_default_na=False, delimiter=";", header=0)
 
     if not is_revised:
-        report_dict = {"Prompt": [], "Premises": [], "No. of parameters": [], "Parameters": [], "Model": [], "Model output": [], "Syntax eval": [], "Out-of-range": [], "Out-of-range detection": []}
+        report_dict = {"Prompt": [], "Premises": [], "No. of parameters": [], "Parameters": [], "Model": [], "Model output": [], "Syntax eval": [], "Outlier": [], "Outlier detection": []}
 
         print(f"Evaluation of model: {model_name}")
         #Load a csv file with outputs from LLMs
@@ -589,7 +593,7 @@ def calculate_metrics(report_filenames_expr, results_filename):
     metrics_results = {"Model": [], "Formalization": [], "Overall": []}
 
     for report_filename in report_filenames:
-        model_name = report_filename.split("/")[-1].split("_")[3]
+        model_name = report_filename.split("/")[-1].split("_")[0]
         # if model_name == "critic":
         #     model_name = report_filename.split("/")[-1].split("_")[-4]
 
@@ -597,7 +601,7 @@ def calculate_metrics(report_filenames_expr, results_filename):
 
         if task == "task2":
             report_df = report_df[report_df["No. of parameters"] > 1]
-            print(len(report_df.index))
+            # print(len(report_df.index))
 
         metrics_results["Model"].append(model_name)
 
@@ -644,52 +648,52 @@ def update_outputs(model_name, model_report, original_model_outputs, corrected_m
     original_model_outputs_df.to_csv(results_filename, sep=";", columns=list(original_model_outputs_df.keys()), index=False)
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--task", default="Task1", type=str, help="Outputs from which task you want to evaluate - Task1|Task2")
-parser.add_argument("--step", default="first", type=str, help="Outputs from which step of inference you want to evaluate - first|syntax|runtime|logic")
-parser.add_argument("--refinement", default=False, type=bool, help="Is this an output from the refinement step - False|True?")
+# parser = argparse.ArgumentParser()
+# parser.add_argument("--task", default="Task1", type=str, help="Outputs from which task you want to evaluate - Task1|Task2")
+# parser.add_argument("--step", default="first", type=str, help="Outputs from which step of inference you want to evaluate - first|syntax|runtime|logic")
+# parser.add_argument("--refinement", default=False, type=bool, help="Is this an output from the refinement step - False|True?")
 
-args = parser.parse_args()
-task = args.task
-step = args.step
-is_refinement = args.refinement
+# args = parser.parse_args()
+# task = args.task
+# step = args.step
+# is_refinement = args.refinement
 
-if task == "Task1":
-    task_dir = "Python_task1"
-    premises_dataset = "data/dataset_premises.csv"
-    points_dataset = "data/points_dataset.csv"
-else:
-    task_dir = "Python_task2"
-    premises_dataset = "data/upgraded_task2_dataset_premises.csv"
-    points_dataset = "data/task2_points_dataset.csv"
+# if task == "Task1":
+#     task_dir = "Task1"
+#     premises_dataset = "data/dataset_premises.csv"
+#     points_dataset = "data/points_dataset.csv"
+# else:
+#     task_dir = "Task2"
+#     premises_dataset = "data/upgraded_task2_dataset_premises.csv"
+#     points_dataset = "data/task2_points_dataset.csv"
 
-if step == "first":
-    outputs_format = "Adapt_anonym_*_python_outputs.csv"
-elif step == "syntax":
-    outputs_format = "Adapt_anonym_*_critic_syntax_task1_python_outputs_no_final_rule.csv"
-elif step == "runtime":
-    outputs_format = "Adapt_anonym_*_critic_runtime_task1_python_outputs_no_final_rule.csv"
-elif step == "logic":
-    outputs_format = "Adapt_anonym_*_critic_rules_task1_python_outputs_no_final_rule.csv"
+# if step == "first":
+#     outputs_format = "outputs/Task1/*_first_outputs.csv"
+# elif step == "syntax":
+#     outputs_format = "outputs/Task1/*_syntax_outputs.csv"
+# elif step == "runtime":
+#     outputs_format = "outputs/Task1/*_runtime_outputs.csv"
+# elif step == "logic":
+#     outputs_format = "outputs/Task1/*_logic_outputs.csv"
 
-outputs_dir = task + "_" + step + "_" + "outputs"
-outputs_to_evaluate = glob.glob(f"outputs/{task_dir}/{outputs_format}")
+# outputs_dir = task + "_" + step + "_" + "outputs"
+# outputs_to_evaluate = glob.glob(f"outputs/{task_dir}/{outputs_format}")
 
-if not os.path.exists("results"):
-    os.mkdir("results")
+# if not os.path.exists("results"):
+#     os.mkdir("results")
 
-if not os.path.exists(f"results/{step}"):
-    os.mkdir(f"results/{step}")
+# if not os.path.exists(f"results/{step}"):
+#     os.mkdir(f"results/{step}")
 
-if not os.path.exists(f"results/{step}/{task}"):
-    os.mkdir(f"results/{step}/{task}")
+# if not os.path.exists(f"results/{step}/{task}"):
+#     os.mkdir(f"results/{step}/{task}")
 
-if not os.path.exists("metrics"):
-    os.mkdir("metrics")
+# if not os.path.exists("metrics"):
+#     os.mkdir("metrics")
 
-for output_filename in outputs_to_evaluate:
-    model_name = output_filename.split("/")[-1].split("_")[2]
-    results_format = f"results/{step}/{task}/{model_name}_results.csv"
-    generate_full_validation_report(is_refinement, task, model_name, output_filename, outputs_dir, premises_dataset, points_dataset, results_format)
+# for output_filename in outputs_to_evaluate:
+#     model_name = output_filename.split("/")[-1].split("_")[0]
+#     results_format = f"results/{step}/{task}/{model_name}_results.csv"
+#     generate_full_validation_report(is_refinement, task, model_name, output_filename, outputs_dir, premises_dataset, points_dataset, results_format)
 
-calculate_metrics(f"results/{step}/{task}/*_results.csv", f"metrics/{task}_{step}_metrics.csv")
+# calculate_metrics(f"results/{step}/{task}/*_results.csv", f"metrics/{task}_{step}_metrics.csv")
