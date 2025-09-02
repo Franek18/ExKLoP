@@ -1,0 +1,7 @@
+Model;Formalization;Overall;Step
+Codestral;1.0;0.99;2
+QwenCoder;1.0;0.95;1
+Gemma3;1.0;0.95;2
+Llama-8;0.99;0.9;2
+QwenCoderMedium;1.0;0.67;6
+QwenCoderSmall;1.0;0.19;6

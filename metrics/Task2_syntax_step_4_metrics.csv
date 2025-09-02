@@ -1,0 +1,8 @@
+Model;Formalization;Overall
+Llama-70;1.0;0.96
+QwenCoder;1.0;0.95
+Codestral;1.0;0.99
+Llama-8;0.99;0.9
+Gemma3;1.0;0.95
+QwenCoderMedium;1.0;0.65
+QwenCoderSmall;1.0;0.17
